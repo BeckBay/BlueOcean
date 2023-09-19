@@ -8,6 +8,19 @@ import axios from 'axios';
 
 const CarCard = ({info,  buttonText}) => {
   const [imageSource, setImageSource] = useState(null);
+
+  const formatCustomDate = (date) => {
+    const day = date.getDate();
+    const month = date.getMonth() + 1;
+    const year = date.getFullYear().toString().slice(2);
+    const hours = date.getHours();
+    const minutes = (date.getMinutes() < 10 ? '0' : '') + date.getMinutes();
+    const ampm = hours >= 12 ? 'PM' : 'AM';
+
+    const formattedDate = `${month}/${day}/${year}, ${hours % 12 || 12}:${minutes} ${ampm}`;
+    return formattedDate;
+  };
+
   const date1 = new Date(info.reservation_start_time);
   const date2 = new Date(info.reservation_end_time);
 
@@ -40,23 +53,23 @@ const CarCard = ({info,  buttonText}) => {
     <View>
         <Text style={styles.row}>
             <Text style={styles.boldText}>Reservation ID: </Text>
-            <Text>{info.confirmation_id}</Text>
+            <Text style={styles.user}>{info.confirmation_id}</Text>
         </Text>
         <Text style={styles.row}>
             <Text style={styles.boldText}>Owner: </Text>
             <Text style={styles.user}>{info.user}</Text>
         </Text>
         <Text style={styles.row}>
-            <Text style={styles.boldText}>Make: </Text>
-            <Text style={styles.carInfo}>{info.make_model}</Text>
+            <Text style={styles.boldText}>Car: </Text>
+            <Text style={styles.user}>{info.make_model}</Text>
         </Text>
         <Text style={styles.row}>
             <Text style={styles.boldText}>Color: </Text>
-            <Text>{info.color}</Text>
+            <Text style={styles.user}>{info.color}</Text>
         </Text>
         <Text style={styles.row}>
             <Text style={styles.boldText}>License Plate: </Text>
-            <Text>{info.license_plate}</Text>
+            <Text style={styles.user}>{info.license_plate}</Text>
         </Text>
     </View>
 </View>
@@ -79,21 +92,19 @@ const CarCard = ({info,  buttonText}) => {
         <View>
         <Text style={styles.row}>
           <Text style={styles.boldText}>Arrival: </Text>
-          <Text>{date1.toLocaleString()}</Text>
-        </Text>
+          <Text style={styles.user}>{formatCustomDate(date1)}</Text>        </Text>
         <Text style={styles.row}>
           <Text style={styles.boldText}>Depart: </Text>
-          <Text>{date2.toLocaleString()}</Text>
-        </Text>
+          <Text style={styles.user}>{formatCustomDate(date2)}</Text>        </Text>
         </View>
         <View>
         <Text style={styles.row}>
           <Text style={styles.boldText}>Garage: </Text>
-          <Text>{}</Text>
+          <Text style={styles.user}>{}</Text>
         </Text>
         <Text style={styles.row}>
           <Text style={styles.boldText}>Spot ID: </Text>
-          <Text>__</Text>
+          <Text style={styles.user}>__</Text>
         </Text>
         </View>
     </View>
@@ -126,14 +137,17 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginTop: 2,
-    marginLeft: 3,
+    marginLeft: 1,
+    fontSize: 16,
   },
   boldText: {
     fontWeight: 'bold',
+    color: 'black',
+
   },
   box: {
-    width: 190,
-    height: 130,
+    width: 180,
+    height: 120,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#ffffff',
@@ -144,9 +158,6 @@ const styles = StyleSheet.create({
     width: 100,
     height: 100,
     resizeMode: 'contain',
-  },
-  carInfo: {
-    marginTop: 15,
   },
   buttonContainer: {
     alignItems: 'center',
@@ -175,6 +186,9 @@ const styles = StyleSheet.create({
 },
   user: {
     marginTop: 1,
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#404040',
   }
 });
 
