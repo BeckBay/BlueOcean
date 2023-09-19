@@ -10,6 +10,7 @@ import Pickups from './Pickups.jsx';
 
 
 
+
 const Tab = createMaterialTopTabNavigator();
 
 function ResTab() {
