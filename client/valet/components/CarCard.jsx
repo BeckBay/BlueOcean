@@ -8,6 +8,19 @@ import axios from 'axios';
 
 const CarCard = ({info,  buttonText}) => {
   const [imageSource, setImageSource] = useState(null);
+
+  const formatCustomDate = (date) => {
+    const day = date.getDate();
+    const month = date.getMonth() + 1;
+    const year = date.getFullYear().toString().slice(2);
+    const hours = date.getHours();
+    const minutes = (date.getMinutes() < 10 ? '0' : '') + date.getMinutes();
+    const ampm = hours >= 12 ? 'PM' : 'AM';
+
+    const formattedDate = `${month}/${day}/${year}, ${hours % 12 || 12}:${minutes} ${ampm}`;
+    return formattedDate;
+  };
+
   const date1 = new Date(info.reservation_start_time);
   const date2 = new Date(info.reservation_end_time);
 
@@ -47,7 +60,7 @@ const CarCard = ({info,  buttonText}) => {
             <Text style={styles.user}>{info.user}</Text>
         </Text>
         <Text style={styles.row}>
-            <Text style={styles.boldText}>Make: </Text>
+            <Text style={styles.boldText}>Car: </Text>
             <Text style={styles.user}>{info.make_model}</Text>
         </Text>
         <Text style={styles.row}>
@@ -79,12 +92,10 @@ const CarCard = ({info,  buttonText}) => {
         <View>
         <Text style={styles.row}>
           <Text style={styles.boldText}>Arrival: </Text>
-          <Text style={styles.user}>{date1.toLocaleString()}</Text>
-        </Text>
+          <Text style={styles.user}>{formatCustomDate(date1)}</Text>        </Text>
         <Text style={styles.row}>
           <Text style={styles.boldText}>Depart: </Text>
-          <Text style={styles.user}>{date2.toLocaleString()}</Text>
-        </Text>
+          <Text style={styles.user}>{formatCustomDate(date2)}</Text>        </Text>
         </View>
         <View>
         <Text style={styles.row}>
@@ -178,7 +189,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
     color: '#404040',
-
   }
 });
 
